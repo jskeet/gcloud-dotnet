@@ -16,7 +16,11 @@ namespace UploadFile
 
             var stream = File.OpenRead(file);
             var stopwatch = Stopwatch.StartNew();
-            client.UploadObject(bucket, obj, "application/binary", stream);
+            var options = new UploadObjectOptions
+            {
+                ChunkSize = UploadObjectOptions.MinimumChunkSize
+            };
+            client.UploadObject(bucket, obj, "application/binary", stream, options);
             stopwatch.Stop();
             Console.WriteLine($"Upload completed in {stopwatch.Elapsed.TotalSeconds}s");
         }
